@@ -8,6 +8,8 @@ interface Rule {
   Active: boolean;
 }
 
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function ValidationManager() {
   const searchParams = useSearchParams();
   const [token, setToken] = useState<string | null>(null);
@@ -23,13 +25,13 @@ export default function ValidationManager() {
   }, [searchParams]);
 
   const handleLogin = () => {
-    window.location.href = 'http://localhost:4000/auth/login';
+    window.location.href = `${BACKEND}/oauth/login`;
   };
 
   const fetchRules = async () => {
     setLoading(true);
     const res = await fetch(
-      `http://localhost:4000/api/validation-rules?token=${token}&instance=${encodeURIComponent(instance!)}`
+      `${BACKEND}/api/validation-rules?token=${token}&instance=${encodeURIComponent(instance!)}`
     );
     const data = await res.json();
     setRules(data);
@@ -38,7 +40,7 @@ export default function ValidationManager() {
 
   const toggleRule = async (ruleId: string, current: boolean) => {
     setMessage('Updating...');
-    await fetch('http://localhost:4000/api/toggle-rule', {
+    await fetch(`${BACKEND}/api/toggle-rule`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, instance, ruleId, active: !current }),
@@ -49,7 +51,7 @@ export default function ValidationManager() {
 
   const toggleAll = async (active: boolean) => {
     setMessage('Updating all rules...');
-    await fetch('http://localhost:4000/api/toggle-all', {
+    await fetch(`${BACKEND}/api/toggle-all`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, instance, active }),
