@@ -24,10 +24,6 @@ export default function ValidationManager() {
     if (t && i) { setToken(t); setInstance(i); }
   }, [searchParams]);
 
-  const handleLogin = () => {
-    window.location.href = `${BACKEND}/oauth/login`;
-  };
-
   const fetchRules = async () => {
     setLoading(true);
     const res = await fetch(
@@ -67,10 +63,13 @@ export default function ValidationManager() {
         <p className="text-gray-500 mb-8">Manage Account validation rules directly from this app</p>
 
         {!token ? (
-          <button onClick={handleLogin}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+          // ← KEY FIX: <a> tag instead of button+onClick
+          
+            href={`${BACKEND}/oauth/login`}
+            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700"
+          >
             🔐 Login with Salesforce
-          </button>
+          </a>
         ) : (
           <div>
             <p className="text-green-600 font-semibold mb-4">✅ Connected to Salesforce</p>
