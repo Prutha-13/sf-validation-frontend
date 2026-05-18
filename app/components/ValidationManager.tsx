@@ -83,7 +83,7 @@ export default function ValidationManager() {
 
         {!token ? (
           <a
-            href={`${BACKEND}/auth/login`}
+            href={`${BACKEND}/oauth/login`}
             className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700"
           >
             🔐 Login with Salesforce
